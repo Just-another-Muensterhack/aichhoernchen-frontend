@@ -1,4 +1,4 @@
-import type { FoundItemData } from '@/app/found/page';
+import type { FoundItemData } from '@/pages/found/index';
 import { MapPin, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -34,12 +34,12 @@ export function Step2_Location({ formData, updateFormData }: Step2Props) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-lg font-medium text-gray-900">Wo hast du das gefunden?</h2>
-                <p className="mt-1 text-sm text-gray-500">Versuche die Adresse so detailiert wie möglich anzugeben.</p>
+                <h2 className="text-lg font-medium">Wo hast du das gefunden?</h2>
+                <p className="mt-1 text-sm text-description">Versuche die Adresse so detailiert wie möglich anzugeben.</p>
             </div>
 
             <div>
-                <label htmlFor="location" className="block text-sm font-medium text-gray-700">Ort / Position</label>
+                <label htmlFor="location" className="block text-sm font-medium text-description">Ort / Position</label>
                 <div className="mt-1">
                     <input
                         type="text"
@@ -59,7 +59,7 @@ export function Step2_Location({ formData, updateFormData }: Step2Props) {
                     <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center">
-                    <span className="bg-white px-2 text-sm text-gray-500">Oder</span>
+                    <span className="bg-surface px-2 text-sm">Oder</span>
                 </div>
             </div>
 
