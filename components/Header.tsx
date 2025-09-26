@@ -13,14 +13,11 @@ export const Header = () => {
             <li>
                 <a href={"/found"}>Abgabe</a>
             </li>
-            <li>
-                <a href={"/map"}>Karte</a>
-            </li>
         </>
     )
 
     return (
-        <header className={"flex-row-0 justify-between"}>
+        <header className={"flex-row-0 justify-between w-full"}>
             <span className={"flex-row-1 justify-center items-center rounded dark:bg-foreground/70 px-2"} aria-label={"AIhörnchen Logo, ein Eichhörnchen"}>
                 <Image src={"favicon.ico"} alt={""} width={32} height={32} />
                 <Image src={"logo-text.png"} alt={""} width={150} height={28} />
@@ -42,7 +39,7 @@ export const Header = () => {
                 >
                     <li>
                         <button
-                            className={"desktop:!hidden bg-transparent border-transparent text-black"}
+                            className={"desktop:!hidden bg-transparent border-transparent"}
                             onClick={() => setIsOpen(false)}
                         >
                             <XIcon/>

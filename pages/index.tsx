@@ -43,7 +43,7 @@ export default function Home() {
     })
 
     return (
-        <div className={"flex-col-0"}>
+        <div className={"flex-col-0 items-center"}>
             <Header/>
             <main className={"flex-col-6"}>
                 <div className={"flex-col-8 w-full px-6 py-10 rounded-lg tablet:px-12 tablet:py-10 bg-primary/30"}
