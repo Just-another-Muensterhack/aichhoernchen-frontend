@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@import "./utility.css";
+
+@import "./colors.css";
+
+@theme {
+    /*
+     * breakpoints
+     */
+    --breakpoint-tablet: 48rem; /* 768px for 16px font-size */
+    --breakpoint-desktop: 64rem; /* 1024px for 16px font-size*/
+}
+
+:root {
+    --size-default: calc(10 * var(--spacing));
+}
+
+@layer components {
+    body {
+        background: var(--background);
+        color: var(--foreground);
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    *:focus {
+        @apply border-primary;
+    }
+
+    button, input, select {
+        @apply flex-row-1 items-center justify-center transition px-4 py-2 min-w-24 max-w-48 h-[var(--size-default)] max-h-[var(--size-default)] whitespace-nowrap rounded border-2;
+    }
+
+    button {
+        @apply bg-primary border-primary text-white hover:brightness-90 font-semibold;
+    }
+
+    input, select {
+        @apply bg-surface border-surface text-foreground hover:not-focus:brightness-90 hover:border-primary outline-none;
+    }
+
+    .icon-button {
+        @apply flex-row-0 items-center justify-center px-2 py-2 min-h-[var(--size-default)] max-h-[var(--size-default)] min-w-[var(--size-default)] max-w-[var(--size-default)];
+    }
+
+    a {
+        @apply text-primary text-lg font-semibold hover:font-bold hover:underline decoration-3;
+    }
+
+    header {
+        @apply sticky top-0 left-0 bg-surface shadow-md z-100;
+    }
+}
