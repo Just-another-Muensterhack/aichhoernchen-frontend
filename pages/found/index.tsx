@@ -59,32 +59,32 @@ export default function FoundPage() {
         <div className="flex flex-col min-h-screen">
             <Header />
             <main className="flex-grow w-full max-w-full py-12 px-2 sm:px-6 lg:px-8">
-                <div className="mb-12 mx-auto">
+                <div className="flex-row-0 items-center justify-center mb-12">
                     <ProgressIndicator currentStep={currentStep} />
                 </div>
 
-                <div className="bg-surface p-8 rounded-xl shadow-md">
+                <div className="bg-surface py-6 px-8 rounded-lg">
                     <form onSubmit={handleSubmit}>
                         {currentStep === 1 && <Step1_Image formData={formData} updateFormData={updateFormData} />}
                         {currentStep === 2 && <Step2_Location formData={formData} updateFormData={updateFormData} />}
                         {currentStep === 3 && <Step3_Details formData={formData} updateFormData={updateFormData} />}
 
-                        <div className="mt-8 pt-5 border-t border-gray-200 flex justify-between items-center">
+                        <div className="mt-8 pt-5 flex justify-between items-center">
                             <div>
                                 {currentStep > 1 && (
-                                    <button type="button" onClick={handlePrevious} className="px-4 py-2 text-sm font-medium bg-secondary rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <button type="button" onClick={handlePrevious} className="bg-secondary border-secondary">
                                         Zurück
                                     </button>
                                 )}
                             </div>
                             <div>
                                 {currentStep < 3 && (
-                                    <button type="button" onClick={handleNext} className="px-4 py-2 text-sm font-medium bg-primary rounded-md shadow-sm hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                    <button type="button" onClick={handleNext}>
                                         Weiter
                                     </button>
                                 )}
                                 {currentStep === 3 && (
-                                    <button type="submit" className="px-4 py-2 text-sm font-medium bg-positive border border-transparent rounded-md shadow-sm hover:bg-positive focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-positive">
+                                    <button type="submit" className="bg-positive border-positive">
                                         Fund melden
                                     </button>
                                 )}

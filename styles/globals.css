@@ -2,6 +2,8 @@
 
 @import "./utility.css";
 
+@import "./textstyles.css";
+
 @import "./colors.css";
 
 @theme {
@@ -27,16 +29,24 @@
         @apply border-primary;
     }
 
-    button, input, select {
-        @apply flex-row-1 items-center justify-center transition px-4 py-2 min-w-24 max-w-48 h-[var(--size-default)] max-h-[var(--size-default)] whitespace-nowrap rounded border-2;
+    *:disabled {
+        @apply text-disabled bg-disabled-background cursor-not-allowed placeholder-disabled;
+    }
+
+    button, input, select, textarea {
+        @apply flex-row-1 items-center justify-center transition px-4 py-2 h-[var(--size-default)] max-h-[var(--size-default)] whitespace-nowrap rounded border-2 placeholder-description;
     }
 
     button {
-        @apply bg-primary border-primary text-white hover:brightness-90 font-semibold not-disabled:cursor-pointer;
+        @apply bg-primary text-on-primary border-primary font-semibold not-disabled:cursor-pointer;
     }
 
-    input, select {
-        @apply bg-surface border-surface text-foreground hover:not-focus:brightness-95 hover:border-primary outline-none;
+    input, select, textarea {
+        @apply bg-input border-input text-foreground hover:not-disabled:border-primary outline-none;
+    }
+
+    button, select  {
+        @apply hover:not-disabled:brightness-90 dark:hover:not-disabled:brightness-110;
     }
 
     .icon-button {
@@ -44,10 +54,18 @@
     }
 
     a {
-        @apply text-primary text-lg font-semibold hover:font-bold hover:underline decoration-3;
+        @apply text-primary title-sm hover:font-bold hover:underline decoration-3;
     }
 
     header {
-        @apply sticky top-0 left-0 bg-surface shadow-md z-100;
+        @apply sticky top-0 left-0 bg-surface shadow-md z-100 h-16 max-h-16 py-4 px-4 tablet:px-10 desktop:px-18;
+    }
+
+    main {
+        @apply flex flex-col items-center w-full py-16 px-4 tablet:px-10 desktop:px-18;
+    }
+
+    .card {
+        @apply flex-col-4 bg-surface p-3 tablet:p-5 desktop:p-6 rounded-lg
     }
 }
