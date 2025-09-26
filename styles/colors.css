@@ -3,7 +3,7 @@
 :root {
     --primary: #A0522D;
     --surface: #FFFFFF;
-    --description: #999999;
+    --description: #777777;
     --background: #EEEEEE;
     --foreground: #1A1A1A;
 }
@@ -20,7 +20,7 @@
 @theme inline {
     --color-primary:  var(--primary);
     --color-surface: var(--surface);
-    --color-description: var(--color-description);
+    --color-description: var(--description);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);

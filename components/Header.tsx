@@ -4,7 +4,7 @@ export const Header = () => {
     return (
         <header className={"flex-row-0 justify-between h-16 max-h-16 px-6 py-4"}>
             <h1 className={"flex-row-2 justify-center items-center"}>
-                <Image src={"favicon.ico"} alt={"AIhörnchen Logo, ein Eichhörnchen"} width={32} height={32}/>
+                <Image src={"/favicon.ico"} alt={"AIhörnchen Logo, ein Eichhörnchen"} width={32} height={32}/>
                 <span className={"text-xl font-semibold"}>
                     <span className={"text-primary text-2xl"}>AI</span>
                     {"chhörnchen"}
