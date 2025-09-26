@@ -1,5 +1,4 @@
-// components/found/Step3_Details.tsx
-import type { FoundItemData } from '@/app/found/page';
+import type { FoundItemData } from '@/pages/found/index';
 
 interface Step3Props {
     formData: FoundItemData;
@@ -10,14 +9,14 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-lg font-medium text-gray-900">Deine Kontaktdaten</h2>
-                <p className="mt-1 text-sm text-gray-500">Diese Information wird erhoben, damit die Person auch mit dir in Kontakt treten kann.<br />Die Daten werden nicht veröffentlicht.</p>
+                <h2 className="text-lg font-medium">Deine Kontaktdaten</h2>
+                <p className="mt-1 text-sm text-description">Diese Information wird erhoben, damit die Person auch mit dir in Kontakt treten kann.<br />Die Daten werden nicht veröffentlicht.</p>
             </div>
 
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderName" className="block text-sm font-medium text-gray-700">
-                        Dein Name <span className="text-red-500">*</span>
+                    <label htmlFor="finderName" className="block text-sm font-medium">
+                        Dein Name <span className="text-primary">*</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -34,8 +33,8 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                 </div>
 
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderEmail" className="block text-sm font-medium text-gray-700">
-                        Email Adresse <span className="text-red-500">*</span>
+                    <label htmlFor="finderEmail" className="block text-sm font-medium">
+                        Email Adresse <span className="text-primary">*</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -52,8 +51,8 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                 </div>
 
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderPhone" className="block text-sm font-medium text-gray-700">
-                        Telefonnummer <span className="text-gray-500">(Optional)</span>
+                    <label htmlFor="finderPhone" className="block text-sm font-medium">
+                        Telefonnummer <span className="text-description">(Optional)</span>
                     </label>
                     <div className="mt-1">
                         <input

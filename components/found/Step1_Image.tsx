@@ -1,7 +1,7 @@
-// components/found/Step1_Image.tsx
 import { useState } from 'react';
-import type { FoundItemData } from '@/app/found/page';
+import type { FoundItemData } from '@/pages/found/index';
 import { UploadCloud, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 
 interface Step1Props {
     formData: FoundItemData;
@@ -18,9 +18,9 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
             updateFormData({ imageFile: file, imageUrl });
 
             setIsIndexing(true);
-            updateFormData({ caption: "Analyzing image..." });
+            updateFormData({ caption: "Ich überlege..." });
             setTimeout(() => {
-                const aiCaption = "A set of silver keys on a black keyfob, possibly car keys.";
+                const aiCaption = "Was auch immer ich als dumme KI mir hierbei gedacht habe...";
                 updateFormData({ caption: aiCaption });
                 setIsIndexing(false);
             }, 2500);
@@ -30,14 +30,14 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-lg font-medium text-gray-900">Mach ein Foto!</h2>
-                <p className="mt-1 text-sm text-gray-500">Ein gutes Foto hilft den Suchenden das Objekt besser zu identifizieren.</p>
+                <h2 className="text-lg font-medium">Mach ein Foto!</h2>
+                <p className="mt-1 text-sm text-description">Ein gutes Foto hilft den Suchenden das Objekt besser zu identifizieren.</p>
             </div>
 
             <div className="flex flex-col items-center justify-center w-full">
-                <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer">
                     {formData.imageUrl ? (
-                        <img src={formData.imageUrl} alt="Preview of found item" className="h-full w-full object-cover rounded-lg" />
+                        <Image src={formData.imageUrl} alt="Preview of found item" className="h-full w-full object-cover rounded-lg" width="720" height="480" />
                     ) : (
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             <UploadCloud className="w-10 h-10 mb-3 text-gray-400" />
@@ -50,14 +50,15 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
             </div>
 
             <div>
-                <label htmlFor="caption" className="block text-sm font-medium text-gray-700">Beschreibung</label>
+                <label htmlFor="caption" className="block text-sm font-medium">Beschreibung</label>
                 <div className="mt-1 relative">
                     <textarea
                         id="caption"
                         name="caption"
                         rows={3}
-                        className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md bg-gray-100 text-blue-500 p-2"
+                        className="shadow-sm bg-surface block w-full sm:text-sm rounded-md p-2"
                         value={formData.caption}
+                        readOnly
                     />
                     {isIndexing && <Loader2 className="absolute top-3 right-3 h-5 w-5 text-gray-800 animate-spin" />}
                 </div>
