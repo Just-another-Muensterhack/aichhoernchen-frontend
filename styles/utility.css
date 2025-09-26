@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@utility flex-col-* {
+    display: flex;
+    flex-direction: column;
+    row-gap: calc(var(--spacing) * --value(number));
+}
+
+@utility flex-row-* {
+    display: flex;
+    flex-direction: row;
+    column-gap: calc(var(--spacing) * --value(number));
+}
