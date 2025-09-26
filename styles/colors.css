@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
 :root {
-    --primary: #A0522D;
+    --primary: #D66425;
+    --secondary: #521c10;
+    --positive: #22C55E;
     --surface: #FFFFFF;
     --description: #777777;
     --background: #EEEEEE;
@@ -19,6 +21,8 @@
 
 @theme inline {
     --color-primary:  var(--primary);
+    --color-secondary:  var(--secondary);
+    --color-positive:  var(--positive);
     --color-surface: var(--surface);
     --color-description: var(--description);
     --color-background: var(--background);
