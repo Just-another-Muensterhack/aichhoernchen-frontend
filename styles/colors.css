@@ -2,18 +2,26 @@
 
 :root {
     --primary: #D66425;
+    --on-primary: #FFFFFF;
     --secondary: #521c10;
     --positive: #22C55E;
-    --surface: #FFFFFF;
+    --negative: #DC2626;
+    --surface: #F6F6F6;
+    --input: #FFFFFF;
     --description: #777777;
+    --disabled: #A1A1A1;
+    --disabled-background: #DDDDDD;
     --background: #EEEEEE;
     --foreground: #1A1A1A;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --surface: #000000;
+        --surface: #111111;
+        --input: #000000;
         --description: #999999;
+        --disabled: #777777;
+        --disabled-background: #333333;
         --background: #1A1A1A;
         --foreground: #F4F4F4;
     }
@@ -21,10 +29,15 @@
 
 @theme inline {
     --color-primary:  var(--primary);
+    --color-on-primary:  var(--on-primary);
     --color-secondary:  var(--secondary);
     --color-positive:  var(--positive);
+    --color-negative: var(--negative);
     --color-surface: var(--surface);
+    --color-input: var(--input);
     --color-description: var(--description);
+    --color-disabled: var(--disabled);
+    --color-disabled-background: var(--disabled-background);
     --color-background: var(--background);
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);

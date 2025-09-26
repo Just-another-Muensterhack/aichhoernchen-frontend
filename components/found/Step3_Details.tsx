@@ -1,4 +1,4 @@
-import type { FoundItemData } from '@/pages/found/index';
+import type { FoundItemData } from '@/pages/found';
 
 interface Step3Props {
     formData: FoundItemData;
@@ -9,14 +9,15 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-lg font-medium">Deine Kontaktdaten</h2>
-                <p className="mt-1 text-sm text-description">Diese Information wird erhoben, damit die Person auch mit dir in Kontakt treten kann.<br />Die Daten werden nicht veröffentlicht.</p>
+                <h2 className="title-lg">Deine Kontaktdaten</h2>
+                <p className="mt-1 text-description">Diese Information wird erhoben, damit die Person auch mit dir in Kontakt treten kann. Die Daten werden nicht veröffentlicht.</p>
             </div>
 
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderName" className="block text-sm font-medium">
-                        Dein Name <span className="text-primary">*</span>
+                    <label htmlFor="finderName" className="flex-row-1 items-center title-sm">
+                        {"Dein Name"}
+                        <span className="text-primary">*</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -24,7 +25,8 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                             name="finderName"
                             id="finderName"
                             autoComplete="name"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            className="w-full"
+                            placeholder={"z.B. Max Mustermann"}
                             value={formData.finderName}
                             onChange={(e) => updateFormData({ finderName: e.target.value })}
                             required
@@ -33,8 +35,9 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                 </div>
 
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderEmail" className="block text-sm font-medium">
-                        Email Adresse <span className="text-primary">*</span>
+                    <label htmlFor="finderEmail" className="flex-row-1 items-center title-sm">
+                        {"Email Adresse"}
+                        <span className="text-primary">*</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -42,7 +45,8 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                             name="finderEmail"
                             type="email"
                             autoComplete="email"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder={"z.B. test@helpwave.de"}
+                            className="w-full"
                             value={formData.finderEmail}
                             onChange={(e) => updateFormData({ finderEmail: e.target.value })}
                             required
@@ -51,8 +55,9 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                 </div>
 
                 <div className="sm:col-span-6">
-                    <label htmlFor="finderPhone" className="block text-sm font-medium">
-                        Telefonnummer <span className="text-description">(Optional)</span>
+                    <label htmlFor="finderPhone" className="flex-row-1 items-center title-sm">
+                        {"Telefonnummer"}
+                        <span className="text-description text-sm">(Optional)</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -60,7 +65,8 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                             name="finderPhone"
                             id="finderPhone"
                             autoComplete="tel"
-                            className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                            placeholder={"z.B. +49 123 456789"}
+                            className="w-full"
                             value={formData.finderPhone}
                             onChange={(e) => updateFormData({ finderPhone: e.target.value })}
                         />

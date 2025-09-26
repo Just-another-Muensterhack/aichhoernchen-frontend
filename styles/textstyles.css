@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@utility title-lg {
+    @apply text-2xl font-bold;
+}
+
+@utility title-md {
+    @apply text-xl font-semibold;
+}
+
+@utility title-sm {
+    @apply text-lg font-semibold;
+}
