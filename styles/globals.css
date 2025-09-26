@@ -32,11 +32,11 @@
     }
 
     button {
-        @apply bg-primary border-primary text-white hover:brightness-90 font-semibold;
+        @apply bg-primary border-primary text-white hover:brightness-90 font-semibold not-disabled:cursor-pointer;
     }
 
     input, select {
-        @apply bg-surface border-surface text-foreground hover:not-focus:brightness-90 hover:border-primary outline-none;
+        @apply bg-surface border-surface text-foreground hover:not-focus:brightness-95 hover:border-primary outline-none;
     }
 
     .icon-button {
