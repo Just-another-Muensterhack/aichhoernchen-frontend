@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Header} from "@/components/Header";
 import {ProgressIndicator} from "@/components/found/ProgressIndicator";
 import {Step1_Image} from "@/components/found/Step1_Image";
@@ -16,10 +16,12 @@ export interface FoundItemData {
     finderName: string;
     finderEmail: string;
     finderPhone?: string;
+    time: string;
 }
 
 export default function FoundPage() {
     const [currentStep, setCurrentStep] = useState(0);
+    const [reachedStep, setReachedStep] = useState(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const [formData, setFormData] = useState<FoundItemData>({
@@ -30,10 +32,11 @@ export default function FoundPage() {
         finderName: "",
         finderEmail: "",
         finderPhone: "",
+        time: "",
     });
 
     const isPhotoValid = !!formData.caption
-    const isLocationValid = !!formData.location
+    const isLocationValid = !!formData.location && !!formData.time
     const isContactValid = !!formData.finderEmail && !!formData.finderPhone && !!formData.finderName
     const stepValidityMap: Record<number, boolean> = {
         0: isPhotoValid,
@@ -55,6 +58,10 @@ export default function FoundPage() {
         setIsSubmitted(true);
     };
 
+    useEffect(() => {
+        setReachedStep(Math.min(Math.max(currentStep, reachedStep, 0), 2))
+    }, [currentStep])
+
     if (isSubmitted) {
         return (
             <div className="flex flex-col min-h-screen">
@@ -65,7 +72,7 @@ export default function FoundPage() {
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen items-center overflow-y-scroll">
             <Header/>
             <main>
                 <div className="flex-row-0 items-center justify-center mb-12">
@@ -76,12 +83,13 @@ export default function FoundPage() {
                             {name: 'Kontaktdaten', isValid: isContactValid},
                         ]}
                         currentStep={currentStep}
+                        reachedStep={reachedStep}
                         onChangeStep={(index) => setCurrentStep(index)}
                     />
                 </div>
 
                 <div className="card w-full min-h-200">
-                    <form>
+                    <form className={"flex-col-8 justify-between h-full grow"}>
                         {currentStep === 0 && <Step1_Image formData={formData} updateFormData={updateFormData}/>}
                         {currentStep === 1 && <Step2_Location formData={formData} updateFormData={updateFormData}/>}
                         {currentStep === 2 && <Step3_Details formData={formData} updateFormData={updateFormData}/>}
@@ -92,7 +100,6 @@ export default function FoundPage() {
                                     <button
                                         onClick={handlePrevious}
                                         className="bg-secondary border-secondary"
-                                        disabled={!stepValidityMap[currentStep]}
                                     >
                                         Zurück
                                     </button>
@@ -100,16 +107,13 @@ export default function FoundPage() {
                             </div>
                             <div>
                                 {currentStep < 2 && (
-                                    <button
-                                        onClick={handleNext}
-                                        disabled={!stepValidityMap[currentStep]}
-                                    >
+                                    <button onClick={handleNext}>
                                         Weiter
                                     </button>
                                 )}
                                 {currentStep === 2 && (
                                     <button
-                                        className="bg-positive border-positive"
+                                        className="not-disabled:bg-positive not-disabled:border-positive"
                                         disabled={!isValid}
                                         onClick={handleSubmit}
                                     >
