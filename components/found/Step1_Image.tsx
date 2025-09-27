@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { FoundItemData } from '@/pages/found';
 import { UploadCloud, Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useCaptionizeImageMutation } from '@/api/gql/generated';
 
 interface Step1Props {
     formData: FoundItemData;
@@ -15,21 +16,28 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
 
     const allowEditing = indexState === "finished" || indexState === "failed";
 
+    const { mutate } = useCaptionizeImageMutation({
+        onSuccess: (data) => {
+            setIndexState("finished");
+            updateFormData({ caption: data.readImage.description });
+        },
+    });
+
+
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+
+            mutate({ file });
+
             const imageUrl = URL.createObjectURL(file);
             updateFormData({ imageFile: file, imageUrl });
 
             setIndexState("indexing");
             updateFormData({ caption: "Ich überlege..." });
-            setTimeout(() => {
-                const aiCaption = "Was auch immer ich als dumme KI mir hierbei gedacht habe...";
-                updateFormData({ caption: aiCaption });
-                setIndexState("finished");
-            }, 2500);
         }
     };
+
 
     return (
         <div className="flex-col-8">
@@ -64,7 +72,7 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
                         name="caption"
                         rows={3}
                         placeholder={"z.B. Auf der Rückseite befindet sich ein grüner Sticker "}
-                        className="block w-full max-w-full min-h-48 rounded-lg resize-none"
+                        className="block w-full max-w-full min-h-48 rounded-lg resize-none text-wrap"
                         value={formData.caption}
                         onChange={(e) => updateFormData({ caption: e.target.value })}
                         disabled={!allowEditing}

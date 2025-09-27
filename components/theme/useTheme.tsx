@@ -1,6 +1,6 @@
-import {Dispatch, PropsWithChildren, SetStateAction, useCallback, useMemo} from 'react'
-import {createContext, useContext, useEffect, useState} from 'react'
-import {useLocalStorage} from "@/components/theme/useLocalStorage";
+import { Dispatch, PropsWithChildren, SetStateAction, useCallback, useMemo } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { useLocalStorage } from "@/components/theme/useLocalStorage";
 
 const themes = ['light', 'dark', 'system'] as const
 
@@ -19,12 +19,12 @@ type ThemeProviderProps = {
     initialTheme?: ThemeType,
 }
 
-export const ThemeProvider = ({children, initialTheme}: PropsWithChildren<ThemeProviderProps>) => {
+export const ThemeProvider = ({ children, initialTheme }: PropsWithChildren<ThemeProviderProps>) => {
     const [storedTheme, setStoredTheme] = useLocalStorage<ThemeType>('theme', initialTheme ?? 'system')
     const [themePreference, setThemePreference] = useState<ThemeType>("system")
 
     const resolvedTheme = useMemo(() => {
-        if(storedTheme && storedTheme !== "system") {
+        if (storedTheme && storedTheme !== "system") {
             return storedTheme
         }
         return themePreference === "dark" ? "dark" : "light"
@@ -66,7 +66,7 @@ export const ThemeProvider = ({children, initialTheme}: PropsWithChildren<ThemeP
     }, [getPreference])
 
     return (
-        <ThemeContext.Provider value={{theme: storedTheme, resolvedTheme, setTheme: setStoredTheme}}>
+        <ThemeContext.Provider value={{ theme: storedTheme, resolvedTheme, setTheme: setStoredTheme }}>
             {children}
         </ThemeContext.Provider>
     )
@@ -75,7 +75,7 @@ export const ThemeProvider = ({children, initialTheme}: PropsWithChildren<ThemeP
 
 export const useTheme = () => {
     const context = useContext(ThemeContext)
-    if(!context) {
+    if (!context) {
         throw new Error('useTheme must be used within ThemeContext. Try adding a ThemeProvider around your app.')
     }
     return context

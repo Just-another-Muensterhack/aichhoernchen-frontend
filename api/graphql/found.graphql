@@ -1,0 +1,15 @@
+mutation foundObject($o: FoundObjectInput!) {
+  foundObject(data: $o) {
+    pk
+    shortTitle
+    longTitle
+    description
+    lat
+    long
+    finderName
+    finderEmail
+    finderPhone
+    key
+    verified
+  }
+}

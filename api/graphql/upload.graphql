@@ -1,0 +1,2 @@
+mutation CaptionizeImage($file: Upload!){ 
+  readImage(image: $file) { ... on ImageAnalyserResponse { shortTitle longTitle description spamScore } } }
