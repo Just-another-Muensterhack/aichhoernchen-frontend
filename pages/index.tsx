@@ -110,7 +110,7 @@ export default function Home() {
                     <ul className={"flex-col-4"}>
                         {(isLoading || isFetching) && (
                             <li className={"card justify-center items-center"}>
-                                {"Loading..."}
+                                {"Laden..."}
                             </li>
                         )}
                         {isSuccess && data &&

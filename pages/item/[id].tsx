@@ -75,7 +75,7 @@ export default function Item() {
             <main className={"flex-col-6"}>
                 {(isLoading || isFetching) && (
                     <div className={"card justify-center items-center"}>
-                        {"Loading..."}
+                        {"Laden..."}
                     </div>
                 )}
                 {isSuccess && data && (
