@@ -3,6 +3,7 @@
 import {Header} from "@/components/Header";
 import {ReactNode, useState} from "react";
 import {
+    ArrowRight,
     BadgeAlert,
     ClockIcon,
     ExternalLinkIcon,
@@ -60,8 +61,8 @@ export function InfoTile({icon, label, value, link}: InfoTileProps) {
     )
 
     return (
-        <div className="flex flex-row justify-between">
-            <span className="flex flex-row items-center font-bold gap-2">
+        <div className="flex-row-4 justify-between">
+            <span className="flex-row-2 items-center font-bold">
                 {icon}
                 {label}
             </span>
@@ -106,6 +107,7 @@ export default function Home() {
                 >
                     <span id={"search-label"} className={"title-lg"}>
                         {"Du hast etwas verloren?"}
+                        <span className={"hidden tablet:inline"}>{" Finde es hier!"}</span>
                     </span>
                     <div className={"flex-col-4 items-end desktop:flex-row-2 desktop:justify-start"}>
                         <input
@@ -119,6 +121,14 @@ export default function Home() {
                             <SearchIcon className={"w-5 h-5"}/>
                             Suche
                         </button>
+                    </div>
+                </div>
+                <div className={"flex-row-0 justify-end w-full"}>
+                    <div className={"card"}>
+                        <a className={"flex-row-2 items-center"} href={"/found"}>
+                            {"Etwas gefunden?"}
+                            <ArrowRight className={"w-5 h-5 stroke-3"}/>
+                        </a>
                     </div>
                 </div>
                 <div className={"flex-col-2 w-full"}>

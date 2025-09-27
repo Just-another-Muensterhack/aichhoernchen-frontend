@@ -1,9 +1,26 @@
 "use client"
 
-import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
+import {MapContainer, Marker, TileLayer, useMapEvents} from "react-leaflet";
+import L from "leaflet"
 import {useState} from "react";
-import {Plus} from "lucide-react";
 
+//
+// Marker
+//
+export const DefaultIcon = new L.Icon({
+    iconUrl: "/marker-icon.png",
+    shadowUrl: "/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+})
+
+L.Marker.prototype.options.icon = DefaultIcon
+
+//
+// Map
+//
 type MapProps = {
     zoom?: number
     position?: [number, number],
@@ -15,20 +32,23 @@ export default function Map({
                                 position = [51.9607, 7.6261] as const,
                                 onMapClickAction,
                             }: MapProps) {
-    const [markerPos, setMarkerPos] = useState<[number, number] | null>(null);
+    const [markerPos, setMarkerPos] = useState<[number, number] | null>(position);
 
     // Custom component to handle clicks
     function ClickHandler() {
         useMapEvents({
             click(e) {
-                setMarkerPos([e.latlng.lat, e.latlng.lng]);
+                if(!onMapClickAction) return
+                const pos: [number, number] = [e.latlng.lat, e.latlng.lng]
+                setMarkerPos(pos);
+                onMapClickAction(...pos)
             },
         });
         return null;
     }
 
     return (
-        <MapContainer center={position} zoom={zoom} style={{height: "500px", width: "100%"}}>
+        <MapContainer center={position} zoom={zoom} className={"w-full h-64 tablet:h-96 desktop:h-128 rounded-lg overflow-hidden"}>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -37,23 +57,7 @@ export default function Map({
             <ClickHandler/>
 
             {markerPos && (
-                <Marker position={markerPos}>
-                    <Popup>
-                        <div className="flex flex-col gap-2">
-                            <span className={"title-sm"}>
-                                Position: {markerPos[0].toFixed(5)}, {markerPos[1].toFixed(5)}
-                            </span>
-                            <button
-                                type={"button"}
-                                className="bg-primary text-white px-2 py-1 rounded"
-                                onClick={() => onMapClickAction?.(markerPos[0], markerPos[1])}
-                            >
-                                <Plus/>
-                                {"Bestätigen"}
-                            </button>
-                        </div>
-                    </Popup>
-                </Marker>
+                <Marker position={markerPos}/>
             )}
         </MapContainer>
     )
