@@ -1,10 +1,63 @@
 "use client"
 
 import { Header } from "@/components/Header";
-import { useState } from "react";
-import { ClockIcon, HouseIcon, MapPin, Phone, SearchIcon } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { ArrowRight, BadgeAlert, ClockIcon, ExternalLinkIcon, HouseIcon, Mail, MapPin, SearchIcon, VerifiedIcon } from "lucide-react";
 import { useGetFoundObjectsQuery } from "@/api/gql/generated";
+import clsx from "clsx";
 
+function formatHalfHour(date: Date) {
+    const rounded = new Date(date)
+    const minutes = date.getMinutes()
+    rounded.setMinutes(minutes < 15 ? 0 : minutes < 45 ? 30 : 0)
+    if (minutes >= 45) {
+        rounded.setHours(rounded.getHours() + 1)
+    }
+    rounded.setSeconds(0)
+    rounded.setMilliseconds(0)
+    return rounded.toLocaleString(undefined, {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+    })
+}
+
+
+type InfoTileProps = {
+    icon: ReactNode
+    label: string
+    value: string
+    link?: string
+}
+
+export function InfoTile({ icon, label, value, link }: InfoTileProps) {
+    const content = link ? (
+        <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={"font-normal text-base flex-row-0.5 items-center"}
+        >
+            {value}
+            <ExternalLinkIcon className={"w-4 h-4"} />
+        </a>
+    ) : (
+        <span>{value}</span>
+    )
+
+    return (
+        <div className="flex-row-4 justify-between">
+            <span className="flex-row-2 items-center font-bold">
+                {icon}
+                {label}
+            </span>
+            {content}
+        </div>
+    )
+}
 export default function Home() {
     const [search, setSearch] = useState("");
 
@@ -48,7 +101,7 @@ export default function Home() {
                     <div className={"card"}>
                         <a className={"flex-row-2 items-center"} href={"/found"}>
                             {"Etwas gefunden?"}
-                            <ArrowRight className={"w-5 h-5 stroke-3"}/>
+                            <ArrowRight className={"w-5 h-5 stroke-3"} />
                         </a>
                     </div>
                 </div>
@@ -61,62 +114,55 @@ export default function Home() {
                             </li>
                         )}
                         {isSuccess && data &&
-                            (data.length ?
-                                    data.map((item, i) => (
-                                        <li key={i} className={"card"}>
-                                            <div className={"flex-row-4 items-center justify-between"}>
-                                                <span className={"title-md truncate"}>
-                                                    {item.shortTitle}
-                                                </span>
-                                                <div
-                                                    className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
-                                                        "bg-positive text-on-positive": item.isVerified,
-                                                        "bg-negative/40 text-on-negative": !item.isVerified
-                                                    })}
-                                                >
-                                                    {item.isVerified ? (
-                                                        <VerifiedIcon className={"w-5 h-5"}/>
-                                                    ) : (
-                                                        <BadgeAlert className={"w-5 h-5"}/>
-                                                    )}
-                                                    <span className={"text-sm"}>{item.isVerified ? "Verifiziert" : "Nicht Verifiziert"}</span>
-                                                </div>
+                            (data.foundObjects.length ?
+                                data.foundObjects.map((item, i) => (
+                                    <li key={i} className={"card"}>
+                                        <div className={"flex-row-4 items-center justify-between"}>
+                                            <span className={"title-md truncate"}>
+                                                {item.shortTitle}
+                                            </span>
+                                            <div
+                                                className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
+                                                    "bg-positive text-on-positive": item.isVerified,
+                                                    "bg-negative/40 text-on-negative": !item.isVerified
+                                                })}
+                                            >
+                                                {item.isVerified ? (
+                                                    <VerifiedIcon className={"w-5 h-5"} />
+                                                ) : (
+                                                    <BadgeAlert className={"w-5 h-5"} />
+                                                )}
+                                                <span className={"text-sm"}>{item.isVerified ? "Verifiziert" : "Nicht Verifiziert"}</span>
                                             </div>
-                                            <div className={"flex-col-4 justify-between"}>
-                                                <div
-                                                    className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2 tablet:gap-x-8"}>
-                                                    <InfoTile
-                                                        icon={<ClockIcon
-                                                            className={"text-description min-w-6 min-h-6"}/>}
-                                                        label={"Fundzeitpunkt"}
-                                                        value={"ca. " + formatHalfHour(item.timestamp)}
-                                                    />
-                                                    <InfoTile
-                                                        icon={<MapPin className="text-description min-w-6 min-h-6"/>}
-                                                        label="Fundort"
-                                                        value={`ca. ${item.lat.toFixed(4)}, ${item.long.toFixed(4)}`}
-                                                        link={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`}
-                                                    />
-                                                    <InfoTile
-                                                        icon={<HouseIcon className="text-description min-w-6 min-h-6"/>}
-                                                        label="Fundbüro"
-                                                        value={item.finderName}
-                                                    />
-                                                    <InfoTile
-                                                        icon={<Phone className="text-description min-w-6 min-h-6"/>}
-                                                        label="Telefon"
-                                                        value={item.finderPhone}
-                                                        link={`tel:${item.finderPhone}`}
-                                                    />
-                                                    <InfoTile
-                                                        icon={<Mail className="text-description min-w-6 min-h-6"/>}
-                                                        label="Email"
-                                                        value={item.finderEmail}
-                                                        link={`mailto:${item.finderEmail}`}
-                                                    />
-                                                </div>
-                                                <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
+                                        </div>
+                                        <div className={"flex-col-4 justify-between"}>
+                                            <div
+                                                className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2 tablet:gap-x-8"}>
+                                                <InfoTile
+                                                    icon={<ClockIcon
+                                                        className={"text-description min-w-6 min-h-6"} />}
+                                                    label={"Fundzeitpunkt"}
+                                                    value={"ca. " + formatHalfHour(item.timestamp)}
+                                                />
+                                                <InfoTile
+                                                    icon={<MapPin className="text-description min-w-6 min-h-6" />}
+                                                    label="Fundort"
+                                                    value={`ca. ${item.lat.toFixed(4)}, ${item.long.toFixed(4)}`}
+                                                    link={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`}
+                                                />
+                                                <InfoTile
+                                                    icon={<HouseIcon className="text-description min-w-6 min-h-6" />}
+                                                    label="Fundbüro"
+                                                    value={item.anonymizedName}
+                                                />
+                                                <InfoTile
+                                                    icon={<Mail className="text-description min-w-6 min-h-6" />}
+                                                    label="Email"
+                                                    value={item.anonymizedEmail}
+                                                    link={`mailto:${item.anonymizedEmail}`}
+                                                />
                                             </div>
+                                            <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
                                         </div>
                                     </li>
                                 )) : (
@@ -135,7 +181,7 @@ export default function Home() {
                         )}
                     </ul>
                 </div>
-            </main>
-        </div>
+            </main >
+        </div >
     );
 }
