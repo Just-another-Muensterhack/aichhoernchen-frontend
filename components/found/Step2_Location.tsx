@@ -73,32 +73,35 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
                     </button>
                 </div>
 
-                <Map onMapClickAction={(lat, long) => updateFormData({location: `${lat},${long}`})}/>
+                <div className={"flex-col-1"}>
+                    <span className={"text-description"}>{"Position auf der Karte auswählen und mit erneutem click auf den Marker bestätigen."}</span>
+                    <Map onMapClickAction={(lat, long) => updateFormData({location: `${lat},${long}`})}/>
+                </div>
+            </div>
 
-                <div className={"flex-col-2"}>
-                    <label htmlFor="time" className="title-sm flex-row-1 items-center">
-                        {"Zeitpunkt"}
-                        <span className={"text-primary"}>*</span>
-                    </label>
-                    <div className={"flex-row-2 w-full"}>
-                        <input
-                            type="datetime-local"
-                            name="time"
-                            id="time"
-                            className="min-w-none max-w-none w-full"
-                            value={formData.time}
-                            onChange={(e) => updateFormData({time: e.target.value})}
-                            required
-                        />
-                        <button
-                            type="button"
-                            onClick={() => {
-                                updateFormData({time: (new Date()).toISOString().slice(0, 19)})
-                            }}
-                        >
-                            {"Jetzt"}
-                        </button>
-                    </div>
+            <div className={"flex-col-2"}>
+                <label htmlFor="time" className="title-sm flex-row-1 items-center">
+                    {"Zeitpunkt"}
+                    <span className={"text-primary"}>*</span>
+                </label>
+                <div className={"flex-row-2 w-full"}>
+                    <input
+                        type="datetime-local"
+                        name="time"
+                        id="time"
+                        className="min-w-none max-w-none w-full text-left"
+                        value={formData.time}
+                        onChange={(e) => updateFormData({time: e.target.value})}
+                        required
+                    />
+                    <button
+                        type="button"
+                        onClick={() => {
+                            updateFormData({time: (new Date()).toISOString().slice(0, 19)})
+                        }}
+                    >
+                        {"Jetzt"}
+                    </button>
                 </div>
             </div>
         </div>

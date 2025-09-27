@@ -40,10 +40,10 @@ export const Header = () => {
                 tabIndex={0}
             >
                 <Sun className={"w-5 h-5"}/>
-                <div className={"relative w-10 h-5 bg-description rounded-full"}>
+                <div className={"relative w-10 h-5 bg-foreground/30 rounded-full"}>
                     <div
                         className={clsx(
-                            "absolute bg-primary w-5 h-5 rounded-full transition-all duration-300 left-0",
+                            "absolute bg-primary w-5 h-5 rounded-full transition-all duration-200 left-0",
                             {
                                 "translate-x-5": resolvedTheme === "dark",
                             }
