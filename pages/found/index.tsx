@@ -32,24 +32,19 @@ export default function FoundPage() {
         finderName: "",
         finderEmail: "",
         finderPhone: "",
-        time: "",
+        time: new Date().toISOString().slice(0, 19),
     });
 
     const isPhotoValid = !!formData.caption
     const isLocationValid = !!formData.location && !!formData.time
     const isContactValid = !!formData.finderEmail && !!formData.finderPhone && !!formData.finderName
-    const stepValidityMap: Record<number, boolean> = {
-        0: isPhotoValid,
-        1: isLocationValid,
-        2: isContactValid,
-    }
     const isValid = isPhotoValid && isLocationValid && isContactValid
 
     const updateFormData = (newData: Partial<FoundItemData>) => {
         setFormData(prev => ({...prev, ...newData}));
     };
 
-    const handleNext = () => setCurrentStep(prev => prev < 2 ? prev + 1: 2);
+    const handleNext = () => setCurrentStep(prev => prev < 2 ? prev + 1 : 2);
     const handlePrevious = () => setCurrentStep(prev => prev > 0 ? prev - 1 : 0);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -88,41 +83,39 @@ export default function FoundPage() {
                     />
                 </div>
 
-                <div className="card w-full min-h-200">
-                    <form className={"flex-col-8 justify-between h-full grow"}>
-                        {currentStep === 0 && <Step1_Image formData={formData} updateFormData={updateFormData}/>}
-                        {currentStep === 1 && <Step2_Location formData={formData} updateFormData={updateFormData}/>}
-                        {currentStep === 2 && <Step3_Details formData={formData} updateFormData={updateFormData}/>}
+                <div className="card gap-y-8 w-full justify-between min-h-200">
+                    {currentStep === 0 && <Step1_Image formData={formData} updateFormData={updateFormData}/>}
+                    {currentStep === 1 && <Step2_Location formData={formData} updateFormData={updateFormData}/>}
+                    {currentStep === 2 && <Step3_Details formData={formData} updateFormData={updateFormData}/>}
 
-                        <div className="mt-8 pt-5 flex justify-between items-center">
-                            <div>
-                                {currentStep > 0 && (
-                                    <button
-                                        onClick={handlePrevious}
-                                        className="bg-secondary border-secondary"
-                                    >
-                                        Zurück
-                                    </button>
-                                )}
-                            </div>
-                            <div>
-                                {currentStep < 2 && (
-                                    <button onClick={handleNext}>
-                                        Weiter
-                                    </button>
-                                )}
-                                {currentStep === 2 && (
-                                    <button
-                                        className="not-disabled:bg-positive not-disabled:border-positive"
-                                        disabled={!isValid}
-                                        onClick={handleSubmit}
-                                    >
-                                        Fund melden
-                                    </button>
-                                )}
-                            </div>
+                    <div className="mt-8 pt-5 flex justify-between items-center">
+                        <div>
+                            {currentStep > 0 && (
+                                <button
+                                    onClick={handlePrevious}
+                                    className="bg-secondary border-secondary"
+                                >
+                                    Zurück
+                                </button>
+                            )}
                         </div>
-                    </form>
+                        <div>
+                            {currentStep < 2 && (
+                                <button onClick={handleNext}>
+                                    Weiter
+                                </button>
+                            )}
+                            {currentStep === 2 && (
+                                <button
+                                    className="not-disabled:bg-positive not-disabled:border-positive"
+                                    disabled={!isValid}
+                                    onClick={handleSubmit}
+                                >
+                                    Fund melden
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </main>
         </div>

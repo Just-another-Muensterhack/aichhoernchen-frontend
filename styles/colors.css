@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 :root {
     --primary: #D66425;
     --on-primary: #FFFFFF;
@@ -13,10 +15,8 @@
     --disabled-background: #DDDDDD;
     --background: #EEEEEE;
     --foreground: #1A1A1A;
-}
 
-@media (prefers-color-scheme: dark) {
-    :root {
+    @variant dark {
         --surface: #111111;
         --input: #000000;
         --description: #999999;

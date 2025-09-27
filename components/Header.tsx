@@ -1,9 +1,18 @@
 import Image from "next/image";
-import {useState} from "react";
-import {MenuIcon, XIcon} from "lucide-react";
+import {useCallback, useState} from "react";
+import {MenuIcon, Moon, Sun, XIcon} from "lucide-react";
+import {useTheme} from "@/components/theme/useTheme";
+import clsx from "clsx";
 
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const {resolvedTheme, setTheme} = useTheme()
+
+    const toggleTheme = useCallback(() => {
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+    }, [resolvedTheme, setTheme])
+
+    console.log("resolvedTheme", resolvedTheme)
 
     const navItems = (
         <>
@@ -13,14 +22,45 @@ export const Header = () => {
             <li>
                 <a href={"/found"}>Abgabe</a>
             </li>
+            <div
+                className={"flex-row-2 items-center"}
+                onKeyDown={(e) => {
+                    if (e.key === " " || e.key === "Enter") {
+                        toggleTheme()
+                        e.preventDefault()
+                        e.stopPropagation()
+                    }
+                }}
+                onClick={(e) => {
+                    toggleTheme()
+                    e.preventDefault()
+                    e.stopPropagation()
+                }}
+                role="button"
+                tabIndex={0}
+            >
+                <Sun className={"w-5 h-5"}/>
+                <div className={"relative w-10 h-5 bg-description rounded-full"}>
+                    <div
+                        className={clsx(
+                            "absolute bg-primary w-5 h-5 rounded-full transition-all duration-300 left-0",
+                            {
+                                "translate-x-5": resolvedTheme === "dark",
+                            }
+                        )}
+                    />
+                </div>
+                <Moon className={"w-5 h-5"}/>
+            </div>
         </>
     )
 
     return (
         <header className={"flex-row-0 justify-between w-full"}>
-            <span className={"flex-row-1 justify-center items-center rounded dark:bg-foreground/70 px-2"} aria-label={"AIhörnchen Logo, ein Eichhörnchen"}>
-                <Image src={"favicon.ico"} alt={""} width={32} height={32} />
-                <Image src={"logo-text.png"} alt={""} width={150} height={28} />
+            <span className={"flex-row-1 justify-center items-center rounded dark:bg-foreground/70 px-2"}
+                  aria-label={"AIhörnchen Logo, ein Eichhörnchen"}>
+                <Image src={"favicon.ico"} alt={""} width={32} height={32}/>
+                <Image src={"logo-text.png"} alt={""} width={150} height={28}/>
             </span>
             <nav className={"flex-row-0 items-center justify-center"}>
                 <ul className={"hidden desktop:flex-row-6"}>

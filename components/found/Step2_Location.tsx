@@ -20,7 +20,7 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const {latitude, longitude} = position.coords;
-                    const locationString = `Near coordinates: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+                    const locationString = `${latitude.toFixed(4)},${longitude.toFixed(4)}`;
                     updateFormData({location: locationString});
                     setIsFetchingLocation(false);
                 },
