@@ -61,11 +61,14 @@ export const Header = () => {
 
     return (
         <header className={"flex-row-0 justify-between w-full"}>
-            <span className={"flex-row-1 justify-center items-center rounded dark:bg-foreground/70 px-2"}
-                  aria-label={"AIhörnchen Logo, ein Eichhörnchen"}>
+            <a
+                className={"flex-row-1 justify-center items-center rounded dark:bg-foreground/70 px-2"}
+                aria-label={"AIhörnchen Logo, ein Eichhörnchen"}
+                href={"/"}
+            >
                 <Image src={"/favicon.ico"} alt={""} width={32} height={32}/>
                 <Image src={"/logo-text.png"} alt={""} width={150} height={28}/>
-            </span>
+            </a>
             <nav className={"flex-row-0 items-center justify-center"}>
                 <ul className={"hidden desktop:flex-row-6"}>
                     {navItems}
@@ -93,7 +96,7 @@ export const Header = () => {
                             {navItems}
                         </ul>
                     </dialog>
-                , document.body)}
+                    , document.body)}
             </nav>
         </header>
     )

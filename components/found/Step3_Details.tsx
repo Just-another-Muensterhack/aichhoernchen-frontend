@@ -1,4 +1,5 @@
 import type { FoundItemData } from '@/pages/found';
+import {useState} from "react";
 
 interface Step3Props {
     formData: FoundItemData;
@@ -6,6 +7,8 @@ interface Step3Props {
 }
 
 export function Step3_Details({ formData, updateFormData }: Step3Props) {
+    const [emailError, setEmailError] = useState("")
+
     return (
         <div className="space-y-6">
             <div>
@@ -48,16 +51,27 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                             placeholder={"z.B. test@helpwave.de"}
                             className="w-full"
                             value={formData.finderEmail}
-                            onChange={(e) => updateFormData({ finderEmail: e.target.value })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                updateFormData({ finderEmail: value });
+
+                                // Simple email regex check
+                                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                setEmailError(emailPattern.test(value) ? "" : "Bitte eine gültige Email-Adresse eingeben.");
+                            }}
                             required
                         />
+                        {emailError && (
+                            <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                        )}
                     </div>
                 </div>
+
 
                 <div className="sm:col-span-6">
                     <label htmlFor="finderPhone" className="flex-row-1 items-center title-sm">
                         {"Telefonnummer"}
-                        <span className="text-description text-sm">(Optional)</span>
+                        <span className="text-primary">*</span>
                     </label>
                     <div className="mt-1">
                         <input
@@ -69,6 +83,7 @@ export function Step3_Details({ formData, updateFormData }: Step3Props) {
                             className="w-full"
                             value={formData.finderPhone}
                             onChange={(e) => updateFormData({ finderPhone: e.target.value })}
+                            required
                         />
                     </div>
                 </div>
