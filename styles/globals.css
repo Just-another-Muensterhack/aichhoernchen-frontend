@@ -30,7 +30,7 @@
     }
 
     *:disabled {
-        @apply text-disabled bg-disabled-background cursor-not-allowed placeholder-disabled;
+        @apply text-disabled bg-disabled-background border-disabled-background cursor-not-allowed placeholder-disabled;
     }
 
     button, input, select, textarea {
@@ -62,7 +62,7 @@
     }
 
     main {
-        @apply flex flex-col items-center w-full py-16 px-4 tablet:px-10 desktop:px-18;
+        @apply flex flex-col items-center w-full max-w-256 py-16 px-4 tablet:px-10 desktop:px-18;
     }
 
     .card {

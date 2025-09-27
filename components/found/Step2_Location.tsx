@@ -1,6 +1,10 @@
 import type {FoundItemData} from '@/pages/found';
 import {MapPin, Loader2} from 'lucide-react';
 import {useState} from 'react';
+import dynamic from "next/dynamic";
+const Map = dynamic(() => import("@/components/Map"), {
+    ssr: false, // disable server-side rendering
+});
 
 interface Step2Props {
     formData: FoundItemData;
@@ -32,13 +36,13 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="flex-col-6 w-full">
             <div>
                 <h2 className="title-lg">Wo hast du das gefunden?</h2>
                 <p className="mt-1 text-description">Versuche die Adresse so detailiert wie möglich anzugeben.</p>
             </div>
 
-            <div>
+            <div className={"flex-col-2"}>
                 <label htmlFor="location" className="title-sm">Ort / Position</label>
                 <div className={"flex-row-2 w-full"}>
                     <input
@@ -65,6 +69,8 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
                         Genau hier! (GPS)
                     </button>
                 </div>
+
+                <Map onMapClickAction={(lat, long) => updateFormData({location: `${lat},${long}`})}/>
             </div>
         </div>
     );

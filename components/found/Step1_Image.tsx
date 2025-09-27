@@ -33,10 +33,10 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
 
     return (
         <div className="flex-col-8">
-            <div>
+            <div className={"flex-col-2"}>
                 <h2 className="title-lg">Mach ein Foto!</h2>
-                <p className="mt-1 text-description">Ein gutes Foto hilft den Suchenden das Objekt besser zu identifizieren.</p>
-                <div className="flex flex-col items-center justify-center w-full mt-2">
+                <p className="text-description">Ein gutes Foto hilft den Suchenden das Objekt besser zu identifizieren.</p>
+                <div className="flex flex-col items-center justify-center w-full">
                     <label htmlFor="file-upload" className="flex flex-col items-center justify-center w-full h-64 border-2 border-foreground/30 hover:border-foreground/50 border-dashed rounded-lg cursor-pointer">
                         {formData.imageUrl ? (
                             <Image src={formData.imageUrl} alt="Preview of found item" className="h-full w-full object-cover rounded-lg" width="720" height="480" />
@@ -52,16 +52,19 @@ export function Step1_Image({ formData, updateFormData }: Step1Props) {
                 </div>
             </div>
 
-            <div>
-                <label htmlFor="caption" className="title-md">Beschreibung</label>
+            <div className={"flex-col-2"}>
+                <label htmlFor="caption" className="flex-row-1 title-md">
+                    {"Beschreibung"}
+                    <span className={"text-primary"}>*</span>
+                </label>
                 <p className="text-description">Unsere KI erstellt automatisch eine Beschreibung des Fundstücks, nachdem das Bild hochgeladen wurde.</p>
-                <div className="mt-2 relative w-full">
+                <div className="relative w-full">
                     <textarea
                         id="caption"
                         name="caption"
                         rows={3}
                         placeholder={"z.B. Auf der Rückseite befindet sich ein grüner Sticker "}
-                        className="block w-full max-w-full min-h-48 rounded-lg"
+                        className="block w-full max-w-full min-h-48 rounded-lg resize-none"
                         value={formData.caption}
                         onChange={(e) => updateFormData({ caption: e.target.value })}
                         disabled={!allowEditing}
