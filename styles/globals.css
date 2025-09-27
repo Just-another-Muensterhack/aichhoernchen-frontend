@@ -35,6 +35,9 @@
 
     button, input, select, textarea {
         @apply flex-row-1 items-center justify-center transition px-4 py-2 h-[var(--size-default)] max-h-[var(--size-default)] whitespace-nowrap rounded border-2 placeholder-description;
+        @variant dark {
+            color-scheme: dark;
+        }
     }
 
     button {
@@ -54,7 +57,7 @@
     }
 
     a {
-        @apply text-primary title-sm hover:font-bold hover:underline decoration-3;
+        @apply text-primary title-sm hover:font-bold hover:underline decoration-3 cursor-pointer;
     }
 
     header {

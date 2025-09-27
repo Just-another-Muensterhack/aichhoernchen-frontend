@@ -22,12 +22,15 @@ export default function Home() {
         <div className={"flex-col-0 items-center overflow-y-scroll"}>
             <Header />
             <main className={"flex-col-6"}>
-                <div className={"card w-full bg-primary/30"}
-                    role={"group"}>
+                <div
+                    className={"card w-full bg-primary/30"}
+                    role={"group"}
+                >
                     <span id={"search-label"} className={"title-lg"}>
-                        {"Finde deine verlorenen Gegenstände!"}
+                        {"Du hast etwas verloren?"}
+                        <span className={"hidden tablet:inline"}>{" Finde es hier!"}</span>
                     </span>
-                    <div className={"flex-col-2 items-end desktop:flex-row-2 desktop:justify-start"}>
+                    <div className={"flex-col-4 items-end desktop:flex-row-2 desktop:justify-start"}>
                         <input
                             value={search}
                             onChange={e => setSearch(e.target.value)}
@@ -41,6 +44,14 @@ export default function Home() {
                         </button>
                     </div>
                 </div>
+                <div className={"flex-row-0 justify-end w-full"}>
+                    <div className={"card"}>
+                        <a className={"flex-row-2 items-center"} href={"/found"}>
+                            {"Etwas gefunden?"}
+                            <ArrowRight className={"w-5 h-5 stroke-3"}/>
+                        </a>
+                    </div>
+                </div>
                 <div className={"flex-col-2 w-full"}>
                     <h2 className={"title-lg"}>{"Ergebnisse"}</h2>
                     <ul className={"flex-col-4"}>
@@ -50,41 +61,61 @@ export default function Home() {
                             </li>
                         )}
                         {isSuccess && data &&
-                            (data.foundObjects.length ?
-                                data.foundObjects.map((item, i) => (
-                                    <li key={i} className={"card"}>
-                                        <span className={"title-md truncate"}>
-                                            {item.longTitle}
-                                        </span>
-                                        <div className={"flex-col-4 justify-between"}>
-                                            <div className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2"}>
-                                                <div className={"flex-row-2 items-center"}>
-                                                    <ClockIcon className={"text-description min-w-6 min-h-6"} />
-                                                    <span>{item.timestamp.toLocaleString()}</span>
-                                                </div>
-                                                <div className={"flex-row-2"}>
-                                                    <HouseIcon className={"text-description min-w-6 min-h-6"} />
-                                                    <span>{item.longTitle}</span>
-                                                </div>
-                                                <div className={"flex-row-2"}>
-                                                    <MapPin className={"text-description min-w-6 min-h-6"} />
-                                                    <span>{item.longTitle}</span>
-                                                </div>
-                                                <div className={"flex-row-2"}>
-                                                    <Phone className={"text-description min-w-6 min-h-6"} />
-                                                    <span>{item.longTitle}</span>
+                            (data.length ?
+                                    data.map((item, i) => (
+                                        <li key={i} className={"card"}>
+                                            <div className={"flex-row-4 items-center justify-between"}>
+                                                <span className={"title-md truncate"}>
+                                                    {item.shortTitle}
+                                                </span>
+                                                <div
+                                                    className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
+                                                        "bg-positive text-on-positive": item.isVerified,
+                                                        "bg-negative/40 text-on-negative": !item.isVerified
+                                                    })}
+                                                >
+                                                    {item.isVerified ? (
+                                                        <VerifiedIcon className={"w-5 h-5"}/>
+                                                    ) : (
+                                                        <BadgeAlert className={"w-5 h-5"}/>
+                                                    )}
+                                                    <span className={"text-sm"}>{item.isVerified ? "Verifiziert" : "Nicht Verifiziert"}</span>
                                                 </div>
                                             </div>
-                                            <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
-                                            <div className={"flex-row-0 justify-end"}>
-                                                <button
-                                                    onClick={() => {
-                                                        // TODO
-                                                    }}
-                                                    className={"w-min"}
-                                                >
-                                                    {"Mehr"}
-                                                </button>
+                                            <div className={"flex-col-4 justify-between"}>
+                                                <div
+                                                    className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2 tablet:gap-x-8"}>
+                                                    <InfoTile
+                                                        icon={<ClockIcon
+                                                            className={"text-description min-w-6 min-h-6"}/>}
+                                                        label={"Fundzeitpunkt"}
+                                                        value={"ca. " + formatHalfHour(item.timestamp)}
+                                                    />
+                                                    <InfoTile
+                                                        icon={<MapPin className="text-description min-w-6 min-h-6"/>}
+                                                        label="Fundort"
+                                                        value={`ca. ${item.lat.toFixed(4)}, ${item.long.toFixed(4)}`}
+                                                        link={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`}
+                                                    />
+                                                    <InfoTile
+                                                        icon={<HouseIcon className="text-description min-w-6 min-h-6"/>}
+                                                        label="Fundbüro"
+                                                        value={item.finderName}
+                                                    />
+                                                    <InfoTile
+                                                        icon={<Phone className="text-description min-w-6 min-h-6"/>}
+                                                        label="Telefon"
+                                                        value={item.finderPhone}
+                                                        link={`tel:${item.finderPhone}`}
+                                                    />
+                                                    <InfoTile
+                                                        icon={<Mail className="text-description min-w-6 min-h-6"/>}
+                                                        label="Email"
+                                                        value={item.finderEmail}
+                                                        link={`mailto:${item.finderEmail}`}
+                                                    />
+                                                </div>
+                                                <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
                                             </div>
                                         </div>
                                     </li>

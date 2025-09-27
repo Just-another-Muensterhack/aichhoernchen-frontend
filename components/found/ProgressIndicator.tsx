@@ -1,5 +1,6 @@
 import {Check, TriangleAlert} from 'lucide-react';
 import clsx from "clsx";
+import {Fragment} from "react";
 
 interface Step {
     name: string,
@@ -21,11 +22,8 @@ export function ProgressIndicator({currentStep, steps, onChangeStep, reachedStep
                     const hasReachedStep = index <= reachedStep;
                     const isAtStep = index === currentStep;
                     return (
-                        <>
-                            <li
-                                key={step.name}
-                                className={`relative`}
-                            >
+                        <Fragment key={index}>
+                            <li className={`relative`}>
                                 <button
                                     disabled={!hasReachedStep}
                                     onClick={() => onChangeStep(index, step)}
@@ -47,14 +45,14 @@ export function ProgressIndicator({currentStep, steps, onChangeStep, reachedStep
                                     <span className="sr-only">{step.name}</span>
                                 </button>
                                 <span
-                                    className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-foreground"
+                                    className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-foreground"
                                     aria-hidden={true}
                                 >
                                     {step.name}
                                 </span>
                             </li>
                             {index < steps.length - 1 && (
-                                <div
+                                <li
                                     className={clsx(
                                         "w-16 h-1",
                                         {
@@ -62,9 +60,10 @@ export function ProgressIndicator({currentStep, steps, onChangeStep, reachedStep
                                             "bg-disabled": index > reachedStep - 1,
                                         }
                                     )}
+                                    aria-hidden={true}
                                 />
                             )}
-                        </>
+                        </Fragment>
                     )
                 })}
             </ol>
