@@ -1,0 +1,20 @@
+fragment FoundObjectFields on FoundObjectType {
+  pk
+  shortTitle
+  longTitle
+  long
+  lat
+  timestamp
+  description
+  anonymizedName
+  anonymizedEmail
+}
+
+query GetFoundObjects(
+  $filters: FoundObjectFilter!
+  $pagination: OffsetPaginationInput!
+) {
+  foundObjects(filters: $filters, pagination: $pagination) {
+    ...FoundObjectFields
+  }
+}

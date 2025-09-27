@@ -1,53 +1,29 @@
 "use client"
 
-import {Header} from "@/components/Header";
-import {useState} from "react";
-import {ClockIcon, HouseIcon, MapPin, Phone, SearchIcon} from "lucide-react";
-import {faker} from "@faker-js/faker/locale/de";
-import {useQuery} from "@tanstack/react-query";
+import { Header } from "@/components/Header";
+import { useState } from "react";
+import { ClockIcon, HouseIcon, MapPin, Phone, SearchIcon } from "lucide-react";
+import { useGetFoundObjectsQuery } from "@/api/gql/generated";
 
 export default function Home() {
     const [search, setSearch] = useState("");
 
-    const {data, isError, isLoading, isFetching, isSuccess, refetch} = useQuery({
-        queryKey: [],
-        queryFn: async () => {
-            await new Promise(res => setTimeout(res, 2000));
-            return Array.from({length: 30}).map(() => {
-                const name = faker.vehicle.bicycle()
-                return {
-                    lat: faker.location.latitude(),
-                    long: faker.location.longitude(),
-                    name,
-                    shortTitle: name,
-                    longTitle: name + " " + faker.string.uuid(),
-                    description: faker.lorem.paragraphs(2),
-                    timestamp: faker.date.past({years: 1}),
-                    deposit: {
-                        name: faker.company.name(),
-                        address: faker.location.streetAddress(),
-                        email: faker.internet.email(),
-                        lat: faker.location.latitude(),
-                        long: faker.location.longitude(),
-                        link: faker.internet.url(),
-                        phone: faker.phone.number(),
-                    },
-                    finder: {
-                        name: faker.person.fullName(),
-                        email: faker.internet.email(),
-                        phone: faker.phone.number(),
-                    }
-                }
-            })
+    const variables = {
+        filters: {
+            search,
+            distance: { lat: 1.5, long: 1.5, distance: 1000005 },
         },
-    })
+        pagination: { offset: 0, limit: 3 },
+    };
+
+    const { data, isError, isLoading, isFetching, isSuccess, refetch } = useGetFoundObjectsQuery(variables);
 
     return (
         <div className={"flex-col-0 items-center overflow-y-scroll"}>
-            <Header/>
+            <Header />
             <main className={"flex-col-6"}>
                 <div className={"card w-full bg-primary/30"}
-                     role={"group"}>
+                    role={"group"}>
                     <span id={"search-label"} className={"title-lg"}>
                         {"Finde deine verlorenen Gegenstände!"}
                     </span>
@@ -60,7 +36,7 @@ export default function Home() {
                             aria-labelledby={"search-label"}
                         />
                         <button className="flex-row-2 rounded-full w-min" onClick={() => refetch()}>
-                            <SearchIcon className={"w-5 h-5"}/>
+                            <SearchIcon className={"w-5 h-5"} />
                             Suche
                         </button>
                     </div>
@@ -74,49 +50,49 @@ export default function Home() {
                             </li>
                         )}
                         {isSuccess && data &&
-                            (data.length ?
-                                    data.map((item, i) => (
-                                        <li key={i} className={"card"}>
-                                            <span className={"title-md truncate"}>
-                                                {item.longTitle}
-                                            </span>
-                                            <div className={"flex-col-4 justify-between"}>
-                                                <div className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2"}>
-                                                    <div className={"flex-row-2 items-center"}>
-                                                        <ClockIcon className={"text-description min-w-6 min-h-6"}/>
-                                                        <span>{item.timestamp.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={"flex-row-2"}>
-                                                        <HouseIcon className={"text-description min-w-6 min-h-6"}/>
-                                                        <span>{item.deposit.name}</span>
-                                                    </div>
-                                                    <div className={"flex-row-2"}>
-                                                        <MapPin className={"text-description min-w-6 min-h-6"}/>
-                                                        <span>{item.deposit.address}</span>
-                                                    </div>
-                                                    <div className={"flex-row-2"}>
-                                                        <Phone className={"text-description min-w-6 min-h-6"}/>
-                                                        <span>{item.deposit.phone}</span>
-                                                    </div>
+                            (data.foundObjects.length ?
+                                data.foundObjects.map((item, i) => (
+                                    <li key={i} className={"card"}>
+                                        <span className={"title-md truncate"}>
+                                            {item.longTitle}
+                                        </span>
+                                        <div className={"flex-col-4 justify-between"}>
+                                            <div className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2"}>
+                                                <div className={"flex-row-2 items-center"}>
+                                                    <ClockIcon className={"text-description min-w-6 min-h-6"} />
+                                                    <span>{item.timestamp.toLocaleString()}</span>
                                                 </div>
-                                                <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
-                                                <div className={"flex-row-0 justify-end"}>
-                                                    <button
-                                                        onClick={() => {
-                                                            // TODO
-                                                        }}
-                                                        className={"w-min"}
-                                                    >
-                                                        {"Mehr"}
-                                                    </button>
+                                                <div className={"flex-row-2"}>
+                                                    <HouseIcon className={"text-description min-w-6 min-h-6"} />
+                                                    <span>{item.longTitle}</span>
+                                                </div>
+                                                <div className={"flex-row-2"}>
+                                                    <MapPin className={"text-description min-w-6 min-h-6"} />
+                                                    <span>{item.longTitle}</span>
+                                                </div>
+                                                <div className={"flex-row-2"}>
+                                                    <Phone className={"text-description min-w-6 min-h-6"} />
+                                                    <span>{item.longTitle}</span>
                                                 </div>
                                             </div>
-                                        </li>
-                                    )) : (
-                                        <li className={"card"}>
-                                            {"Keine Items gefunden"}
-                                        </li>
-                                    )
+                                            <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
+                                            <div className={"flex-row-0 justify-end"}>
+                                                <button
+                                                    onClick={() => {
+                                                        // TODO
+                                                    }}
+                                                    className={"w-min"}
+                                                >
+                                                    {"Mehr"}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                )) : (
+                                    <li className={"card"}>
+                                        {"Keine Items gefunden"}
+                                    </li>
+                                )
                             )}
                         {isError && (
                             <li className={"card flex-col-2 tablet:flex-row-8 items-end tablet:items-center justify-between bg-negative/20 text-negative"}>

@@ -1,12 +1,13 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {Header} from "@/components/Header";
-import {ProgressIndicator} from "@/components/found/ProgressIndicator";
-import {Step1_Image} from "@/components/found/Step1_Image";
-import {Step2_Location} from "@/components/found/Step2_Location";
-import {Step3_Details} from "@/components/found/Step3_Details";
-import {SuccessScreen} from "@/components/found/SuccessScreen";
+import { useEffect, useState } from "react";
+import { Header } from "@/components/Header";
+import { ProgressIndicator } from "@/components/found/ProgressIndicator";
+import { Step1_Image } from "@/components/found/Step1_Image";
+import { Step2_Location } from "@/components/found/Step2_Location";
+import { Step3_Details } from "@/components/found/Step3_Details";
+import { SuccessScreen } from "@/components/found/SuccessScreen";
+import { useCaptionizeImageMutation, useFoundObjectMutation } from "@/api/gql/generated";
 
 export interface FoundItemData {
     imageFile: File | null;
@@ -41,16 +42,38 @@ export default function FoundPage() {
     const isValid = isPhotoValid && isLocationValid && isContactValid
 
     const updateFormData = (newData: Partial<FoundItemData>) => {
-        setFormData(prev => ({...prev, ...newData}));
+        setFormData(prev => ({ ...prev, ...newData }));
     };
 
     const handleNext = () => setCurrentStep(prev => prev < 2 ? prev + 1 : 2);
+ 
+    const {mutate} = useFoundObjectMutation({
+        onSuccess: (data) => {
+            setIsSubmitted(true);
+            console.log(data);
+        },
+    });   
+
     const handlePrevious = () => setCurrentStep(prev => prev > 0 ? prev - 1 : 0);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         console.log("Submitting data:", formData);
-        setIsSubmitted(true);
+
+        mutate({
+            o: {
+                shortTitle: formData.caption,
+                longTitle: formData.caption,
+                description: formData.caption,
+                finderEmail: formData.finderEmail,
+                finderName: formData.finderName,
+                finderPhone: formData.finderPhone ?? "",
+                lat: parseFloat(formData.location[0]),
+                long: parseFloat(formData.location[1]),
+            }
+        });
+
     };
 
     useEffect(() => {
@@ -60,22 +83,22 @@ export default function FoundPage() {
     if (isSubmitted) {
         return (
             <div className="flex flex-col min-h-screen">
-                <Header/>
-                <SuccessScreen/>
+                <Header />
+                <SuccessScreen />
             </div>
         );
     }
 
     return (
         <div className="flex flex-col min-h-screen items-center overflow-y-scroll">
-            <Header/>
+            <Header />
             <main>
                 <div className="flex-row-0 items-center justify-center mb-12">
                     <ProgressIndicator
                         steps={[
-                            {name: 'Foto', isValid: isPhotoValid},
-                            {name: 'Fundort', isValid: isLocationValid},
-                            {name: 'Kontaktdaten', isValid: isContactValid},
+                            { name: 'Foto', isValid: isPhotoValid },
+                            { name: 'Fundort', isValid: isLocationValid },
+                            { name: 'Kontaktdaten', isValid: isContactValid },
                         ]}
                         currentStep={currentStep}
                         reachedStep={reachedStep}
@@ -84,9 +107,9 @@ export default function FoundPage() {
                 </div>
 
                 <div className="card gap-y-8 w-full justify-between min-h-200">
-                    {currentStep === 0 && <Step1_Image formData={formData} updateFormData={updateFormData}/>}
-                    {currentStep === 1 && <Step2_Location formData={formData} updateFormData={updateFormData}/>}
-                    {currentStep === 2 && <Step3_Details formData={formData} updateFormData={updateFormData}/>}
+                    {currentStep === 0 && <Step1_Image formData={formData} updateFormData={updateFormData} />}
+                    {currentStep === 1 && <Step2_Location formData={formData} updateFormData={updateFormData} />}
+                    {currentStep === 2 && <Step3_Details formData={formData} updateFormData={updateFormData} />}
 
                     <div className="mt-8 pt-5 flex justify-between items-center">
                         <div>
