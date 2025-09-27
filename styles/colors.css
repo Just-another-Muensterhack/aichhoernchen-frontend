@@ -19,11 +19,11 @@
     --foreground: #1A1A1A;
 
     @variant dark {
-        --surface: #111111;
-        --input: #000000;
+        --surface: #282828;
+        --input: #333333;
         --description: #999999;
         --disabled: #777777;
-        --disabled-background: #333333;
+        --disabled-background: #555555;
         --background: #1A1A1A;
         --foreground: #F4F4F4;
     }
