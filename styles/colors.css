@@ -7,7 +7,9 @@
     --on-primary: #FFFFFF;
     --secondary: #521c10;
     --positive: #22C55E;
+    --on-positive: #FFFFFF;
     --negative: #DC2626;
+    --on-negative: #FFFFFF;
     --surface: #F6F6F6;
     --input: #FFFFFF;
     --description: #777777;
@@ -32,7 +34,9 @@
     --color-on-primary:  var(--on-primary);
     --color-secondary:  var(--secondary);
     --color-positive:  var(--positive);
+    --color-on-positive:  var(--on-positive);
     --color-negative: var(--negative);
+    --color-on-negative:  var(--on-negative);
     --color-surface: var(--surface);
     --color-input: var(--input);
     --color-description: var(--description);
