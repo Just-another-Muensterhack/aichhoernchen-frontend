@@ -5,6 +5,7 @@ fragment FoundObjectFields on FoundObjectType {
   long
   lat
   timestamp
+  verified
   description
   anonymizedName
   anonymizedEmail

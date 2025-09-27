@@ -123,16 +123,16 @@ export default function Home() {
                                             </span>
                                             <div
                                                 className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
-                                                    "bg-positive text-on-positive": item.isVerified,
-                                                    "bg-negative/40 text-on-negative": !item.isVerified
+                                                    "bg-positive text-on-positive": item.verified,
+                                                    "bg-negative/40 text-on-negative": !item.verified
                                                 })}
                                             >
-                                                {item.isVerified ? (
+                                                {item.verified ? (
                                                     <VerifiedIcon className={"w-5 h-5"} />
                                                 ) : (
                                                     <BadgeAlert className={"w-5 h-5"} />
                                                 )}
-                                                <span className={"text-sm"}>{item.isVerified ? "Verifiziert" : "Nicht Verifiziert"}</span>
+                                                <span className={"text-sm"}>{item.verified ? "Verifiziert" : "Nicht Verifiziert"}</span>
                                             </div>
                                         </div>
                                         <div className={"flex-col-4 justify-between"}>

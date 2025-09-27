@@ -298,7 +298,7 @@ export type FoundObjectMutationVariables = Exact<{
 
 export type FoundObjectMutation = { __typename?: 'Mutation', foundObject: { __typename?: 'FoundObjectCreateType', pk: number, shortTitle: string, longTitle: string, description: string, lat: number, long: number, finderName: string, finderEmail: string, finderPhone: string, key: any, verified: boolean } };
 
-export type FoundObjectFieldsFragment = { __typename?: 'FoundObjectType', pk: number, shortTitle: string, longTitle: string, long: number, lat: number, timestamp: any, description: string, anonymizedName: string, anonymizedEmail: string };
+export type FoundObjectFieldsFragment = { __typename?: 'FoundObjectType', pk: number, shortTitle: string, longTitle: string, long: number, lat: number, timestamp: any, verified: boolean, description: string, anonymizedName: string, anonymizedEmail: string };
 
 export type GetFoundObjectsQueryVariables = Exact<{
   filters: FoundObjectFilter;
@@ -306,7 +306,7 @@ export type GetFoundObjectsQueryVariables = Exact<{
 }>;
 
 
-export type GetFoundObjectsQuery = { __typename?: 'Query', foundObjects: Array<{ __typename?: 'FoundObjectType', pk: number, shortTitle: string, longTitle: string, long: number, lat: number, timestamp: any, description: string, anonymizedName: string, anonymizedEmail: string }> };
+export type GetFoundObjectsQuery = { __typename?: 'Query', foundObjects: Array<{ __typename?: 'FoundObjectType', pk: number, shortTitle: string, longTitle: string, long: number, lat: number, timestamp: any, verified: boolean, description: string, anonymizedName: string, anonymizedEmail: string }> };
 
 export type CaptionizeImageMutationVariables = Exact<{
   file: Scalars['Upload']['input'];
@@ -324,6 +324,7 @@ export const FoundObjectFieldsFragmentDoc = `
   long
   lat
   timestamp
+  verified
   description
   anonymizedName
   anonymizedEmail

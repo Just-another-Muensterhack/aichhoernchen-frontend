@@ -4,7 +4,7 @@ const url = 'https://api.aichhoernchen.de/graphql/'
 
 const client = new GraphQLClient(url);
 
-export const fetcher = <TData, TVariables>(
+export const fetcher = <TData, TVariables extends object | undefined>(
     query: string,
     variables?: TVariables
 ) => {
@@ -20,7 +20,7 @@ export const fetcher = <TData, TVariables>(
                 'operations',
                 JSON.stringify({
                     query,
-                    variables: { ...variables, file: null },
+                    variables: { ...variables as any, file: null }, // Added 'as any' for safety with spread
                 })
             );
 
@@ -44,6 +44,6 @@ export const fetcher = <TData, TVariables>(
             return json.data as TData;
         }
 
-        return client.request<TData, TVariables>(query, variables);
+        return client.request(query, variables);
     };
 };
