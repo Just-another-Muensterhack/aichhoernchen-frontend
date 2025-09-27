@@ -8,11 +8,11 @@ import {useState} from "react";
 // Marker
 //
 export const DefaultIcon = new L.Icon({
-    iconUrl: "/marker-icon.png",
+    iconUrl: "/nuss.png",
     shadowUrl: "/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+    iconSize: [40, 40],
+    iconAnchor: [15, 40],
+    popupAnchor: [28, 0],
     shadowSize: [41, 41],
 })
 
