@@ -81,7 +81,7 @@ export const Header = () => {
                         className={"fixed w-screen h-screen inset-0 bg-surface text-foreground flex items-center justify-center z-[2000]"}
                         onClick={() => setIsOpen(false)}
                     >
-                        <ul className={"flex-col-2 items-center justify-center"}>
+                        <ul className={"flex-col-12 items-center justify-center"}>
                             <li>
                                 <button
                                     className={"desktop:!hidden bg-transparent border-transparent text-foreground"}
