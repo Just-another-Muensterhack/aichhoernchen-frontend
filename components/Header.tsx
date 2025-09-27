@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {useCallback, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {MenuIcon, Moon, Sun, XIcon} from "lucide-react";
 import {useTheme} from "@/components/theme/useTheme";
 import clsx from "clsx";
@@ -7,12 +7,13 @@ import clsx from "clsx";
 export const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
     const {resolvedTheme, setTheme} = useTheme()
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => setMounted(true), [])
 
     const toggleTheme = useCallback(() => {
         setTheme(resolvedTheme === "dark" ? "light" : "dark")
     }, [resolvedTheme, setTheme])
 
-    console.log("resolvedTheme", resolvedTheme)
 
     const navItems = (
         <>
@@ -22,36 +23,38 @@ export const Header = () => {
             <li>
                 <a href={"/found"}>Abgabe</a>
             </li>
-            <div
-                className={"flex-row-2 items-center"}
-                onKeyDown={(e) => {
-                    if (e.key === " " || e.key === "Enter") {
+            {mounted && (
+                <li
+                    className={"flex-row-2 items-center"}
+                    onKeyDown={(e) => {
+                        if (e.key === " " || e.key === "Enter") {
+                            toggleTheme()
+                            e.preventDefault()
+                            e.stopPropagation()
+                        }
+                    }}
+                    onClick={(e) => {
                         toggleTheme()
                         e.preventDefault()
                         e.stopPropagation()
-                    }
-                }}
-                onClick={(e) => {
-                    toggleTheme()
-                    e.preventDefault()
-                    e.stopPropagation()
-                }}
-                role="button"
-                tabIndex={0}
-            >
-                <Sun className={"w-5 h-5"}/>
-                <div className={"relative w-10 h-5 bg-foreground/30 rounded-full"}>
-                    <div
-                        className={clsx(
-                            "absolute bg-primary w-5 h-5 rounded-full transition-all duration-200 left-0",
-                            {
-                                "translate-x-5": resolvedTheme === "dark",
-                            }
-                        )}
-                    />
-                </div>
-                <Moon className={"w-5 h-5"}/>
-            </div>
+                    }}
+                    role="button"
+                    tabIndex={0}
+                >
+                    <Sun className={"w-5 h-5"}/>
+                    <div className={"relative w-10 h-5 bg-foreground/30 rounded-full"}>
+                        <div
+                            className={clsx(
+                                "absolute bg-primary w-5 h-5 rounded-full transition-all duration-200 left-0",
+                                {
+                                    "translate-x-5": resolvedTheme === "dark",
+                                }
+                            )}
+                        />
+                    </div>
+                    <Moon className={"w-5 h-5"}/>
+                </li>
+            )}
         </>
     )
 
