@@ -57,7 +57,7 @@
     }
 
     a {
-        @apply text-primary title-sm hover:font-bold hover:underline decoration-3;
+        @apply text-primary title-sm hover:font-bold hover:underline decoration-3 cursor-pointer;
     }
 
     header {
