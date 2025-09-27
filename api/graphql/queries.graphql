@@ -13,9 +13,8 @@ fragment FoundObjectFields on FoundObjectType {
 
 query GetFoundObjects(
   $filters: FoundObjectFilter!
-  $pagination: OffsetPaginationInput!
 ) {
-  foundObjects(filters: $filters, pagination: $pagination) {
+  foundObjects(filters: $filters) {
     ...FoundObjectFields
   }
 }

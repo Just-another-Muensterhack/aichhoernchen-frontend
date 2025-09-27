@@ -302,7 +302,6 @@ export type FoundObjectFieldsFragment = { __typename?: 'FoundObjectType', pk: nu
 
 export type GetFoundObjectsQueryVariables = Exact<{
   filters: FoundObjectFilter;
-  pagination: OffsetPaginationInput;
 }>;
 
 
@@ -362,8 +361,8 @@ export const useFoundObjectMutation = <
     )};
 
 export const GetFoundObjectsDocument = `
-    query GetFoundObjects($filters: FoundObjectFilter!, $pagination: OffsetPaginationInput!) {
-  foundObjects(filters: $filters, pagination: $pagination) {
+    query GetFoundObjects($filters: FoundObjectFilter!) {
+  foundObjects(filters: $filters) {
     ...FoundObjectFields
   }
 }

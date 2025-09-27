@@ -1,9 +1,19 @@
 "use client"
 
-import { Header } from "@/components/Header";
-import { ReactNode, useState } from "react";
-import { ArrowRight, BadgeAlert, ClockIcon, ExternalLinkIcon, HouseIcon, Mail, MapPin, SearchIcon, VerifiedIcon } from "lucide-react";
-import { useGetFoundObjectsQuery } from "@/api/gql/generated";
+import {Header} from "@/components/Header";
+import {ReactNode, useState} from "react";
+import {
+    ArrowRight,
+    BadgeAlert,
+    ClockIcon,
+    ExternalLinkIcon,
+    HouseIcon,
+    Mail,
+    MapPin,
+    SearchIcon,
+    VerifiedIcon
+} from "lucide-react";
+import {useGetFoundObjectsQuery} from "@/api/gql/generated";
 import clsx from "clsx";
 
 function formatHalfHour(date: Date) {
@@ -33,7 +43,7 @@ type InfoTileProps = {
     link?: string
 }
 
-export function InfoTile({ icon, label, value, link }: InfoTileProps) {
+export function InfoTile({icon, label, value, link}: InfoTileProps) {
     const content = link ? (
         <a
             href={link}
@@ -42,7 +52,7 @@ export function InfoTile({ icon, label, value, link }: InfoTileProps) {
             className={"font-normal text-base flex-row-0.5 items-center"}
         >
             {value}
-            <ExternalLinkIcon className={"w-4 h-4"} />
+            <ExternalLinkIcon className={"w-4 h-4"}/>
         </a>
     ) : (
         <span>{value}</span>
@@ -58,23 +68,31 @@ export function InfoTile({ icon, label, value, link }: InfoTileProps) {
         </div>
     )
 }
+
 export default function Home() {
     const [search, setSearch] = useState("");
+    const [hasSearched, setHasSearched] = useState(false)
 
     const variables = {
         filters: {
             search,
-            distance: { lat: 1.5, long: 1.5, distance: 1000005 },
+            distance: {lat: 1.5, long: 1.5, distance: 1000005},
         },
-        pagination: { offset: 0, limit: 3 },
+        pagination: {offset: 0, limit: 3},
     };
 
-    const { data, isError, isLoading, isFetching, isSuccess, refetch } = useGetFoundObjectsQuery(variables);
+    const {data, isError, isLoading, isFetching, isSuccess, refetch} = useGetFoundObjectsQuery(variables, {
+        enabled: hasSearched
+    });
 
     return (
-        <div className={"flex-col-0 items-center overflow-y-scroll"}>
-            <Header />
-            <main className={"flex-col-6"}>
+        <div className={"flex-col-0 items-center overflow-y-scroll min-h-screen"}>
+            <Header/>
+            <main
+                className={clsx("flex-col-6 grow", {
+                    "justify-center": !hasSearched
+                })}
+            >
                 <div
                     className={"card w-full bg-primary/30"}
                     role={"group"}
@@ -91,8 +109,14 @@ export default function Home() {
                             className={"w-full rounded-full min-h-10"}
                             aria-labelledby={"search-label"}
                         />
-                        <button className="flex-row-2 rounded-full w-min" onClick={() => refetch()}>
-                            <SearchIcon className={"w-5 h-5"} />
+                        <button
+                            className="flex-row-2 rounded-full w-min"
+                            onClick={() => {
+                                refetch()
+                                setHasSearched(true)
+                            }}
+                        >
+                            <SearchIcon className={"w-5 h-5"}/>
                             Suche
                         </button>
                     </div>
@@ -101,87 +125,98 @@ export default function Home() {
                     <div className={"card"}>
                         <a className={"flex-row-2 items-center"} href={"/found"}>
                             {"Etwas gefunden?"}
-                            <ArrowRight className={"w-5 h-5 stroke-3"} />
+                            <ArrowRight className={"w-5 h-5 stroke-3"}/>
                         </a>
                     </div>
                 </div>
-                <div className={"flex-col-2 w-full"}>
-                    <h2 className={"title-lg"}>{"Ergebnisse"}</h2>
-                    <ul className={"flex-col-4"}>
-                        {(isLoading || isFetching) && (
-                            <li className={"card justify-center items-center"}>
-                                {"Laden..."}
-                            </li>
-                        )}
-                        {isSuccess && data &&
-                            (data.foundObjects.length ?
-                                data.foundObjects.map((item, i) => (
-                                    <li key={i} className={"card"}>
-                                        <div className={"flex-row-4 items-center justify-between"}>
+                {hasSearched && (
+                    <div className={"flex-col-2 w-full"}>
+                        <h2 className={"title-lg"}>{"Ergebnisse"}</h2>
+                        <ul className={"flex-col-4"}>
+                            {(isLoading || isFetching) && hasSearched && (
+                                <li className={"card justify-center items-center"}>
+                                    {"Laden..."}
+                                </li>
+                            )}
+                            {isSuccess && data && hasSearched &&
+                                (data.foundObjects.length ?
+                                        data.foundObjects.map((item, i) => (
+                                            <li key={i} className={"card"}>
+                                                <div className={"flex-row-4 items-center justify-between"}>
                                             <span className={"title-md truncate"}>
                                                 {item.shortTitle}
                                             </span>
-                                            <div
-                                                className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
-                                                    "bg-positive text-on-positive": item.verified,
-                                                    "bg-negative/40 text-on-negative": !item.verified
-                                                })}
-                                            >
-                                                {item.verified ? (
-                                                    <VerifiedIcon className={"w-5 h-5"} />
-                                                ) : (
-                                                    <BadgeAlert className={"w-5 h-5"} />
-                                                )}
-                                                <span className={"text-sm"}>{item.verified ? "Verifiziert" : "Nicht Verifiziert"}</span>
-                                            </div>
-                                        </div>
-                                        <div className={"flex-col-4 justify-between"}>
-                                            <div
-                                                className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2 tablet:gap-x-8"}>
-                                                <InfoTile
-                                                    icon={<ClockIcon
-                                                        className={"text-description min-w-6 min-h-6"} />}
-                                                    label={"Fundzeitpunkt"}
-                                                    value={"ca. " + formatHalfHour(new Date(item.timestamp))}
-                                                />
-                                                <InfoTile
-                                                    icon={<MapPin className="text-description min-w-6 min-h-6" />}
-                                                    label="Fundort"
-                                                    value={`ca. ${item.lat.toFixed(4)}, ${item.long.toFixed(4)}`}
-                                                    link={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`}
-                                                />
-                                                <InfoTile
-                                                    icon={<HouseIcon className="text-description min-w-6 min-h-6" />}
-                                                    label="Fundbüro"
-                                                    value={item.anonymizedName}
-                                                />
-                                                <InfoTile
-                                                    icon={<Mail className="text-description min-w-6 min-h-6" />}
-                                                    label="Email"
-                                                    value={item.anonymizedEmail}
-                                                    link={`mailto:${item.anonymizedEmail}`}
-                                                />
-                                            </div>
-                                            <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
-                                        </div>
-                                    </li>
-                                )) : (
-                                    <li className={"card"}>
-                                        {"Keine Items gefunden"}
-                                    </li>
-                                )
+                                                    <div
+                                                        className={clsx("flex-row-1 items-center rounded-full px-2 py-1", {
+                                                            "bg-positive text-on-positive": item.verified,
+                                                            "bg-negative/40 text-on-negative": !item.verified
+                                                        })}
+                                                    >
+                                                        {item.verified ? (
+                                                            <VerifiedIcon className={"w-5 h-5"}/>
+                                                        ) : (
+                                                            <BadgeAlert className={"w-5 h-5"}/>
+                                                        )}
+                                                        <span
+                                                            className={"text-sm"}>{item.verified ? "Verifiziert" : "Nicht Verifiziert"}</span>
+                                                    </div>
+                                                </div>
+                                                <div className={"flex-col-4 justify-between"}>
+                                                    <div
+                                                        className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2 tablet:gap-x-8"}>
+                                                        <InfoTile
+                                                            icon={<ClockIcon
+                                                                className={"text-description min-w-6 min-h-6"}/>}
+                                                            label={"Fundzeitpunkt"}
+                                                            value={"ca. " + formatHalfHour(new Date(item.timestamp))}
+                                                        />
+                                                        <InfoTile
+                                                            icon={<MapPin
+                                                                className="text-description min-w-6 min-h-6"/>}
+                                                            label="Fundort"
+                                                            value={`ca. ${item.lat.toFixed(4)}, ${item.long.toFixed(4)}`}
+                                                            link={`https://www.google.com/maps/search/?api=1&query=${item.lat},${item.long}`}
+                                                        />
+                                                        <InfoTile
+                                                            icon={<HouseIcon
+                                                                className="text-description min-w-6 min-h-6"/>}
+                                                            label="Fundbüro"
+                                                            value={item.anonymizedName}
+                                                        />
+                                                        <InfoTile
+                                                            icon={<Mail className="text-description min-w-6 min-h-6"/>}
+                                                            label="Email"
+                                                            value={item.anonymizedEmail}
+                                                            link={`mailto:${item.anonymizedEmail}`}
+                                                        />
+                                                    </div>
+                                                    <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
+                                                </div>
+                                            </li>
+                                        )) : (!search.length ? (
+                                                <li className={"card"}>
+                                                    {"Ergebnisse werden erst nach einer suche angezeigt"}
+                                                </li>
+                                            ) : (
+                                                <li className={"card"}>
+                                                    {"Keine Fundstücke gefunden"}
+                                                </li>
+                                            )
+                                        )
+                                )}
+                            {isError && (
+                                <li className={"card flex-col-2 tablet:flex-row-8 items-end tablet:items-center justify-between bg-negative/20 text-negative"}>
+                                    <span
+                                        className={"title-md text-left w-full"}>{"Es ist ein Fehler aufgetreten"}</span>
+                                    <button className={"w-min float-right"} onClick={() => refetch()}>
+                                        {"Erneut versuchen"}
+                                    </button>
+                                </li>
                             )}
-                        {isError && (
-                            <li className={"card flex-col-2 tablet:flex-row-8 items-end tablet:items-center justify-between bg-negative/20 text-negative"}>
-                                <span className={"title-md text-left w-full"}>{"Es ist ein Fehler aufgetreten"}</span>
-                                <button className={"w-min float-right"} onClick={() => refetch()}>
-                                    {"Erneut versuchen"}
-                                </button>
-                            </li>
-                        )}
-                    </ul>
-                </div>
-            </main >
-        </div >
+                        </ul>
+                    </div>
+                )}
+            </main>
+        </div>
     );
 }
