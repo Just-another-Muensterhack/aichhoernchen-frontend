@@ -15,8 +15,6 @@ export const Header = () => {
     }, [resolvedTheme, setTheme])
 
 
-    console.log("resolvedTheme", resolvedTheme)
-
     const navItems = (
         <>
             <li>

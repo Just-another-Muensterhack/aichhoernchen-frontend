@@ -49,7 +49,7 @@ export default function FoundPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Submitting data:", formData);
+        console.info("Submitting data:", formData);
         setIsSubmitted(true);
     };
 
