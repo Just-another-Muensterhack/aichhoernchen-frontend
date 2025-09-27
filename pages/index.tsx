@@ -142,7 +142,7 @@ export default function Home() {
                                                     icon={<ClockIcon
                                                         className={"text-description min-w-6 min-h-6"} />}
                                                     label={"Fundzeitpunkt"}
-                                                    value={"ca. " + formatHalfHour(item.timestamp)}
+                                                    value={"ca. " + formatHalfHour(new Date(item.timestamp))}
                                                 />
                                                 <InfoTile
                                                     icon={<MapPin className="text-description min-w-6 min-h-6" />}
