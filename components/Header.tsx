@@ -39,7 +39,7 @@ export const Header = () => {
                 >
                     <li>
                         <button
-                            className={"desktop:!hidden bg-transparent border-transparent"}
+                            className={"desktop:!hidden bg-transparent border-transparent text-foreground"}
                             onClick={() => setIsOpen(false)}
                         >
                             <XIcon/>

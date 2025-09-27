@@ -11,7 +11,7 @@ export default function Home() {
 
     const {data, isError, isLoading, isFetching, isSuccess, refetch} = useQuery({
         queryKey: [],
-        queryFn: async ()  => {
+        queryFn: async () => {
             await new Promise(res => setTimeout(res, 2000));
             return Array.from({length: 30}).map(() => {
                 const name = faker.vehicle.bicycle()
@@ -43,10 +43,10 @@ export default function Home() {
     })
 
     return (
-        <div className={"flex-col-0 items-center"}>
+        <div className={"flex-col-0 items-center overflow-y-scroll"}>
             <Header/>
             <main className={"flex-col-6"}>
-                <div className={"flex-col-8 w-full px-6 py-10 rounded-lg tablet:px-12 tablet:py-10 bg-primary/30"}
+                <div className={"card w-full bg-primary/30"}
                      role={"group"}>
                     <span id={"search-label"} className={"title-lg"}>
                         {"Finde deine verlorenen Gegenstände!"}
@@ -80,8 +80,8 @@ export default function Home() {
                                             <span className={"title-md truncate"}>
                                                 {item.longTitle}
                                             </span>
-                                            <div className={"flex-col-2 justify-between desktop:flex-row-2"}>
-                                                <div className={"flex-col-2 gap-y-2 desktop:min-w-64"}>
+                                            <div className={"flex-col-4 justify-between"}>
+                                                <div className={"flex-col-2 gap-y-2 tablet:grid tablet:grid-cols-2"}>
                                                     <div className={"flex-row-2 items-center"}>
                                                         <ClockIcon className={"text-description min-w-6 min-h-6"}/>
                                                         <span>{item.timestamp.toLocaleString()}</span>
@@ -99,13 +99,13 @@ export default function Home() {
                                                         <span>{item.deposit.phone}</span>
                                                     </div>
                                                 </div>
-                                                <div className={"flex-col-1 justify-between items-end"}>
-                                                    <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
+                                                <p className={"text-description w-full max-w-full max-h-18 overflow-hidden overflow-ellipsis"}>{item.description}</p>
+                                                <div className={"flex-row-0 justify-end"}>
                                                     <button
                                                         onClick={() => {
                                                             // TODO
                                                         }}
-                                                        className={"float-right"}
+                                                        className={"w-min"}
                                                     >
                                                         {"Mehr"}
                                                     </button>

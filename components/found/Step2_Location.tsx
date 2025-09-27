@@ -38,12 +38,15 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
     return (
         <div className="flex-col-6 w-full">
             <div>
-                <h2 className="title-lg">Wo hast du das gefunden?</h2>
-                <p className="mt-1 text-description">Versuche die Adresse so detailiert wie möglich anzugeben.</p>
+                <h2 className="title-lg">Wo und wann hast du es gefunden?</h2>
+                <p className="mt-1 text-description">Versuche die Angaben so genau wie möglich zu machen.</p>
             </div>
 
             <div className={"flex-col-2"}>
-                <label htmlFor="location" className="title-sm">Ort / Position</label>
+                <label htmlFor="location" className="title-sm flex-row-1 itmes-center">
+                    {"Ort / Position"}
+                    <span className={"text-primary"}>*</span>
+                </label>
                 <div className={"flex-row-2 w-full"}>
                     <input
                         type="text"
@@ -71,6 +74,32 @@ export function Step2_Location({formData, updateFormData}: Step2Props) {
                 </div>
 
                 <Map onMapClickAction={(lat, long) => updateFormData({location: `${lat},${long}`})}/>
+
+                <div className={"flex-col-2"}>
+                    <label htmlFor="time" className="title-sm flex-row-1 items-center">
+                        {"Zeitpunkt"}
+                        <span className={"text-primary"}>*</span>
+                    </label>
+                    <div className={"flex-row-2 w-full"}>
+                        <input
+                            type="datetime-local"
+                            name="time"
+                            id="time"
+                            className="min-w-none max-w-none w-full"
+                            value={formData.time}
+                            onChange={(e) => updateFormData({time: e.target.value})}
+                            required
+                        />
+                        <button
+                            type="button"
+                            onClick={() => {
+                                updateFormData({time: (new Date()).toISOString().slice(0, 19)})
+                            }}
+                        >
+                            {"Jetzt"}
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );

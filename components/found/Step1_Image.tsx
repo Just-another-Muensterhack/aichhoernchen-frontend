@@ -11,7 +11,7 @@ interface Step1Props {
 type IndexState = "notStarted" | "indexing" | "finished" | "failed";
 
 export function Step1_Image({ formData, updateFormData }: Step1Props) {
-    const [indexState, setIndexState] = useState<IndexState>("notStarted");
+    const [indexState, setIndexState] = useState<IndexState>(!formData.caption ? "notStarted" : "finished");
 
     const allowEditing = indexState === "finished" || indexState === "failed";
 
